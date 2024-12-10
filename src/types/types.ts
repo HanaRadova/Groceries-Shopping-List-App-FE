@@ -11,13 +11,10 @@ export interface User {
 }
 
 export interface ShoppingList {
-    id: string;
-    name: string;
-    owner: string;
-    archived: boolean;
-    items: Array<ShoppingListItem>
-    members: Array<User>
-  }
-  
-  
-
+  id: string;
+  name: string;
+  owner: string;
+  archived: boolean;
+  items: ShoppingListItem[];
+  members: User[]; 
+}

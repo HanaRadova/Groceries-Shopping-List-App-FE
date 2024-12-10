@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import userImage from "../assets/images/user.png";
-import enFlag from "../assets/images/EN.png";
-import deFlag from "../assets/images/DE.png";
-import logo from "../assets/images/logo.png";
-import cogwheel from "../assets/images/cogwheel.png";
-import share from "../assets/images/share.png";
-import Modal from "../components/Modal";
-import SettingsWindow from "./SettingsWindow";
 import { useShoppingListContext } from "../context/ShoppingListContext";
 import "../styles.css";
 
@@ -18,21 +11,15 @@ const ShoppingListDetail: React.FC = () => {
 
   const [newItemName, setNewItemName] = useState("");
   const [filterResolved, setFilterResolved] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  // Fetch the shopping list from the context
   const shoppingList = shoppingLists.find((list) => list.id === id);
 
   if (!shoppingList) {
+    console.error(`Shopping list not found for id: ${id}`);
     return <div>Error: Shopping list not found.</div>;
   }
 
-  const toggleItemResolved = (itemId: string) => {
-    const updatedItems = shoppingList.items.map((item) =>
-      item.id === itemId ? { ...item, resolved: !item.resolved } : item
-    );
-    updateShoppingList(shoppingList.id, { items: updatedItems });
-  };
+  console.log("Shopping List:", shoppingList); // Debugging
 
   const addItem = () => {
     if (newItemName.trim() === "") return;
@@ -50,116 +37,51 @@ const ShoppingListDetail: React.FC = () => {
     updateShoppingList(shoppingList.id, { items: updatedItems });
   };
 
-  const editListName = (newName: string) => {
-    updateShoppingList(shoppingList.id, { name: newName });
+  const toggleResolved = (itemId: string) => {
+    const updatedItems = shoppingList.items.map((item) =>
+      item.id === itemId ? { ...item, resolved: !item.resolved } : item
+    );
+    updateShoppingList(shoppingList.id, { items: updatedItems });
   };
 
   const removeMember = (memberId: string) => {
-    const updatedMembers = shoppingList.members.filter((member) => member.id !== memberId);
+    const updatedMembers = shoppingList.members.filter(
+      (member) => member.id !== memberId
+    );
     updateShoppingList(shoppingList.id, { members: updatedMembers });
   };
 
-  const toggleArchiveStatus = () => {
+  const toggleArchived = () => {
     updateShoppingList(shoppingList.id, { archived: !shoppingList.archived });
-  };
-
-  const filteredItems = filterResolved
-    ? shoppingList.items
-    : shoppingList.items.filter((item) => !item.resolved);
-
-  const openSettings = () => {
-    setIsSettingsOpen(true);
-  };
-
-  const generateShareLink = () => {
-    const shareLink = `https://example.com/share/${id}`;
-    alert(`Share link generated: ${shareLink}`);
   };
 
   return (
     <div className="container">
       <header className="header">
-        <div className="userInfo">
-          <img src={userImage} alt="User" className="userPhoto" />
-          <span>{shoppingList.owner}</span>
-        </div>
-        <div className="languageSwitch">
-          <img src={enFlag} alt="EN" className="flag" />
-          <img src={deFlag} alt="DE" className="flag" />
-        </div>
-        <img src={logo} alt="Logo" className="logo" onClick={() => navigate("/")} />
+        <img src={userImage} alt="User" />
+        <h1>{shoppingList.name}</h1>
+        <button onClick={() => navigate("/")}>Back</button>
       </header>
-      <div className="listHeader">
-        <input
-          type="text"
-          value={shoppingList.name}
-          onChange={(e) => editListName(e.target.value)}
-          className="listName"
-        />
-        <div className="listActions">
-          <img src={cogwheel} alt="Settings" className="icon" onClick={openSettings} />
-          <img src={share} alt="Share" className="icon" onClick={generateShareLink} />
-        </div>
-      </div>
-      <ul className="list">
-        {filteredItems.map((item) => (
-          <li key={item.id} className="listItem">
+      <ul>
+        {shoppingList.items.map((item) => (
+          <li key={item.id}>
             <input
               type="checkbox"
               checked={item.resolved}
-              onChange={() => toggleItemResolved(item.id)}
+              onChange={() => toggleResolved(item.id)}
             />
-            <span className={`itemName ${item.resolved ? "resolved" : ""}`}>
-              {item.name}
-            </span>
-            <button onClick={() => removeItem(item.id)} className="deleteButton">
-              Remove Item
-            </button>
+            {item.name}
+            <button onClick={() => removeItem(item.id)}>Remove</button>
           </li>
         ))}
-        <li className="addItem">
-          <input
-            type="text"
-            placeholder="New item"
-            value={newItemName}
-            onChange={(e) => setNewItemName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                addItem();
-              }
-            }}
-          />
-        </li>
       </ul>
-      <footer className="footer">
-        <div className="detailInfo">
-          <p>Detailed Information</p>
-          <div className="footerRow">
-            <div className="footerColumn">
-              <p>Owner</p>
-              <div className="userDetail">
-                <img src={userImage} alt="User" className="userPhoto" />
-                <span>{shoppingList.owner}</span>
-              </div>
-            </div>
-            <div className="footerColumn">
-              <p>Category</p>
-              <button className="archiveButton" onClick={toggleArchiveStatus}>
-                {shoppingList.archived ? "Active" : "Archived"}
-              </button>
-            </div>
-          </div>
-        </div>
+      <button onClick={addItem}>Add Item</button>
+      <footer>
+        <p>Owner: {shoppingList.owner}</p>
+        <button onClick={toggleArchived}>
+          {shoppingList.archived ? "Unarchive" : "Archive"}
+        </button>
       </footer>
-      <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
-        <SettingsWindow
-          members={shoppingList.members}
-          onDeleteMember={removeMember}
-          hideArchived={filterResolved}
-          setHideArchived={setFilterResolved}
-          onClose={() => setIsSettingsOpen(false)}
-        />
-      </Modal>
     </div>
   );
 };

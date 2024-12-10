@@ -45,11 +45,14 @@ export const ShoppingListProvider = ({ children }: { children: ReactNode }) => {
     setShoppingLists((prev) => [...prev, list]);
   };
 
-  const updateShoppingList = (id: string, updatedList: Partial<ShoppingList>) => {
+  const updateShoppingList = (id: string, updates: Partial<ShoppingList>) => {
     setShoppingLists((prev) =>
-      prev.map((list) => (list.id === id ? { ...list, ...updatedList } : list))
+      prev.map((list) =>
+        list.id === id ? { ...list, ...updates } : list
+      )
     );
   };
+  
 
   const deleteShoppingList = (id: string) => {
     setShoppingLists((prev) => prev.filter((list) => list.id !== id));
