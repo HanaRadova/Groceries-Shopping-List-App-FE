@@ -1,10 +1,15 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useShoppingListContext } from "../context/ShoppingListContext";
 
 const Detail = () => {
   const { id } = useParams<{ id: string }>();
   const { shoppingLists, updateShoppingList } = useShoppingListContext();
+
+  // Validate id before using it
+  if (!id) {
+    return <div>Error: Invalid shopping list ID.</div>;
+  }
+
   const shoppingList = shoppingLists.find((list) => list.id === id);
 
   if (!shoppingList) {
