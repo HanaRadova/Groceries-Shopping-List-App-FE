@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode } from "react";
 
-// Define the shape of the context state
-interface ShoppingListContextType {
-  shoppingLists: ShoppingList[];
-  setShoppingLists: React.Dispatch<React.SetStateAction<ShoppingList[]>>;
+// Define the structure of a shopping list
+interface ShoppingListItem {
+  id: string;
+  name: string;
+  resolved: boolean;
 }
 
 interface ShoppingList {
@@ -14,18 +15,18 @@ interface ShoppingList {
   items: ShoppingListItem[];
 }
 
-interface ShoppingListItem {
-  id: string;
-  name: string;
-  resolved: boolean;
+interface ShoppingListContextType {
+  shoppingLists: ShoppingList[];
+  setShoppingLists: React.Dispatch<React.SetStateAction<ShoppingList[]>>;
+  addShoppingList: (list: ShoppingList) => void;
+  updateShoppingList: (id: string, updatedList: Partial<ShoppingList>) => void;
+  deleteShoppingList: (id: string) => void;
 }
 
-// Create the context
 const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
   undefined
 );
 
-// Provider component
 export const ShoppingListProvider = ({ children }: { children: ReactNode }) => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([
     {
@@ -38,32 +39,41 @@ export const ShoppingListProvider = ({ children }: { children: ReactNode }) => {
         { id: "2", name: "Milk", resolved: true },
       ],
     },
-    {
-      id: "2",
-      name: "Office Supplies",
-      owner: "Bob",
-      archived: true,
-      items: [
-        { id: "1", name: "Paper", resolved: false },
-        { id: "2", name: "Pens", resolved: false },
-      ],
-    },
   ]);
 
+  const addShoppingList = (list: ShoppingList) => {
+    setShoppingLists((prev) => [...prev, list]);
+  };
+
+  const updateShoppingList = (id: string, updatedList: Partial<ShoppingList>) => {
+    setShoppingLists((prev) =>
+      prev.map((list) => (list.id === id ? { ...list, ...updatedList } : list))
+    );
+  };
+
+  const deleteShoppingList = (id: string) => {
+    setShoppingLists((prev) => prev.filter((list) => list.id !== id));
+  };
+
   return (
-    <ShoppingListContext.Provider value={{ shoppingLists, setShoppingLists }}>
+    <ShoppingListContext.Provider
+      value={{
+        shoppingLists,
+        setShoppingLists,
+        addShoppingList,
+        updateShoppingList,
+        deleteShoppingList,
+      }}
+    >
       {children}
     </ShoppingListContext.Provider>
   );
 };
 
-// Custom hook to use the context
 export const useShoppingListContext = () => {
-  const context = useContext(ShoppingListContext);
+  const context = React.useContext(ShoppingListContext);
   if (!context) {
-    throw new Error(
-      "useShoppingListContext must be used within a ShoppingListProvider"
-    );
+    throw new Error("useShoppingListContext must be used within a ShoppingListProvider");
   }
   return context;
 };
