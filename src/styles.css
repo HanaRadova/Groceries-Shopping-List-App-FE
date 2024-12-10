@@ -1,0 +1,287 @@
+body {
+    background-color: white;
+    color: #000000; 
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+  }
+  
+  button {
+    border: 1px solid black;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #3872858f; 
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color:#49688d;
+    color: antiquewhite;
+  }
+  
+  /* Modal Styles */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(177, 192, 175, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background: lightgrey; 
+    color: #49688d; 
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .closeButton {
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background-color: rgb(174, 13, 13);
+  }
+  
+  /* SettingsWindow Styles */
+  .settingsContainer {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .membersList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .memberRow {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .photo {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .memberName {
+    margin-left: 10px;
+    text-align: left;
+    margin: 20px;
+  }
+  
+  .deleteButton {
+    font-size: 10px;
+    cursor: pointer;
+    justify-self: end;
+  }
+  
+  .setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  /* ShoppingListDetail Styles */
+  .container {
+    padding: 20px;
+    background-color: #39822e3a; 
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color:#a9c44899;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .userPhoto {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .languageSwitch {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .flag {
+    width: auto;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  .logo {
+    width: 100px;
+    border-radius: 10%;
+  }
+  
+  .listHeader {
+    display:flex;
+    justify-content:center;
+    align-items: right;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .listName {
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    background: none;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .listActions {
+    display:flex;
+    gap: 10px;
+  }
+  
+  .icon {
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  .list {
+    list-style: none;
+    padding: 10;
+    margin: 10;
+  }
+  
+  .listItem {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .itemName {
+    flex-grow: 1;
+    margin: 10px;
+  }
+  
+  .addItem {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+  
+  .footer {
+    margin-top: 20px;
+    background-color:#a9c44899;    
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .detailInfo {
+    text-align: center;
+  }
+  
+  .footerRow {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .footerColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .userDetail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .loginContainer {
+    color: #0c540c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .loginButton {
+    color: #0c540c;
+    background-color:#0c540c15;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .loginButton:hover {
+    background-color: #0c540c; 
+  }
+  
+  .accessDeclinedContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #0c540c;
+  }
+
+  .listArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color:#a9c44899;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .listsSort{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    align-items: center;
+    background-color:#20600d5f;
+    padding: 10px;
+    border-radius: 8px;
+  }

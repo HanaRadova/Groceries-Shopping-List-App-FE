@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import userImage from '../assets/images/user.png'; 
 import enFlag from '../assets/images/EN.png'; 
 import deFlag from '../assets/images/DE.png'; 
@@ -7,76 +7,73 @@ import logo from '../assets/images/logo.png';
 import cogwheel from '../assets/images/cogwheel.png'; 
 import share from '../assets/images/share.png'; 
 import Modal from '../components/Modal';
-import SettingsWindow from './SettingsWindow';
-import { useShoppingList } from '../hooks/useShoppingList';
+import SettingsWindow from './SettingsWindowMember';
 import '../styles.css'; 
-import { ShoppingList, ShoppingListItem } from '../types/types';
 
+interface Item {
+  id: number;
+  name: string;
+  resolved: boolean;
+}
 
-
+interface ShoppingList {
+  name: string;
+  items: Item[];
+  members: string[];
+  owner: string;
+}
 
 const ShoppingListDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [shoppingList, setShoppingList] = useState<ShoppingList>();
+  const [shoppingList, setShoppingList] = useState<ShoppingList>({
+    name: 'For Monday',
+    items: [
+      { id: 1, name: 'Orange Juice', resolved: false },
+      { id: 2, name: 'Chicken', resolved: false },
+      { id: 3, name: 'Mayo', resolved: false },
+      { id: 4, name: 'Oil', resolved: true },
+    ],
+    members: ['Hana Radová (me)'],
+    owner: 'Jakub Rada',
+  });
   const [newItemName, setNewItemName] = useState('');
   const [filterResolved, setFilterResolved] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isArchived, setIsArchived] = useState(false);
-  const { getShoppingList } = useShoppingList()
-  const navigate = useNavigate()
 
-
-  useEffect(() => {
-    const result = getShoppingList(id || '')
-    result && setShoppingList(result)
-  },[])
-
-
-  if (!shoppingList) return <div>Loading ...</div>
-
-  const toggleItemResolved = (itemId: string) => {
-    setShoppingList({
-      ...shoppingList,
-      items: shoppingList.items.map((item) =>
+  const toggleItemResolved = (itemId: number) => {
+    setShoppingList((prevList) => ({
+      ...prevList,
+      items: prevList.items.map((item) =>
         item.id === itemId ? { ...item, resolved: !item.resolved } : item
       ),
-    });
+    }));
   };
 
   const addItem = () => {
     if (newItemName.trim() === '') return;
-    setShoppingList({
-      ...shoppingList,
+    setShoppingList((prevList) => ({
+      ...prevList,
       items: [
-        ...shoppingList.items,
-        { id: String(shoppingList.items.length + 1), name: newItemName, resolved: false } as ShoppingListItem,
+        ...prevList.items,
+        { id: prevList.items.length + 1, name: newItemName, resolved: false },
       ],
-    });
+    }));
     setNewItemName('');
   };
 
-  const removeItem = (itemId: string) => {
-    setShoppingList({...shoppingList,
-      items: shoppingList.items.filter((item) => item.id !== itemId),
-    });
+  const removeItem = (itemId: number) => {
+    setShoppingList((prevList) => ({
+      ...prevList,
+      items: prevList.items.filter((item) => item.id !== itemId),
+    }));
   };
 
-  const editListName = (newName: string) => {
-    setShoppingList({
-      ...shoppingList,
-      name: newName,
-    });
-  };
-
-  const removeMember = (memberId: string) => {
-    setShoppingList({
-      ...shoppingList,
-      members: shoppingList.members.filter((member) => member.id !== memberId),
-    });
-  };
-
-  const leaveList = (memberName: string) => {
-    removeMember(memberName);
+  const removeMember = (memberName: string) => {
+    setShoppingList((prevList) => ({
+      ...prevList,
+      members: prevList.members.filter((member) => member !== memberName),
+    }));
   };
 
   const filteredItems = filterResolved
@@ -107,15 +104,10 @@ const ShoppingListDetail: React.FC = () => {
           <img src={enFlag} alt="EN" className="flag" />
           <img src={deFlag} alt="DE" className="flag" />
         </div>
-        <img src={logo} alt="Logo" className="logo" onClick={() => navigate("/")} />
+        <img src={logo} alt="Logo" className="logo" />
       </header>
       <div className="listHeader">
-        <input
-          type="text"
-          value={shoppingList.name}
-          onChange={(e) => editListName(e.target.value)}
-          className="listName"
-        />
+      <h2 className="listName">{shoppingList.name}</h2>
         <div className="listActions">
           <img src={cogwheel} alt="Settings" className="icon" onClick={openSettings} />
           <img src={share} alt="Share" className="icon" onClick={generateShareLink} />
@@ -154,28 +146,31 @@ const ShoppingListDetail: React.FC = () => {
           <p>Detailed Information</p>
           <div className="footerRow">
             <div className="footerColumn">
-              <p>Owner</p>
+              <p>List Owner</p>
               <div className="userDetail">
                 <img src={userImage} alt="User" className="userPhoto" />
-                <span>Hana Radová</span>
+                <span>Jakub Rada</span>
               </div>
             </div>
             <div className="footerColumn">
               <p>Category</p>
-              <button className="archiveButton" onClick={toggleArchiveStatus}>
-                {isArchived ? 'Active' : 'Archived'}
-              </button>
+              <button className="archiveButton">Active</button>
             </div>
           </div>
         </div>
       </footer>
       <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
         <SettingsWindow
-          members={shoppingList.members}
-          onDeleteMember={removeMember}
-          hideArchived={filterResolved}
-          setHideArchived={setFilterResolved}
-          onClose={() => setIsSettingsOpen(false)}
+                  members={shoppingList.members.map((name, index) => ({
+                      photo: userImage,
+                      name,
+                      id: index.toString(),
+                  }))}
+                  onLeave={removeMember}
+                  hideArchived={filterResolved}
+                  setHideArchived={setFilterResolved}
+                  onClose={() => setIsSettingsOpen(false)
+                  } 
         />
       </Modal>
     </div>
