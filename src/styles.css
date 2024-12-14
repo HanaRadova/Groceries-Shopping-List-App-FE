@@ -7,16 +7,6 @@ body {
 
   }
   
-  button {
-    border: 1px solid black;
-    color: black;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-    background-color: #3872858f; 
-    border-radius: 5px;
-  }
-  
   button:hover {
     background-color:#49688d;
     color: antiquewhite;
@@ -285,4 +275,54 @@ body {
     background-color:#20600d5f;
     padding: 10px;
     border-radius: 8px;
+  }
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .input-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-field label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .input-field input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 0.7rem;
+    margin: 5px;
+    background-color: #3872858f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+  }
+  
+  button:hover:enabled {
+    background-color: #387285df;
+  }
+  
+  .auth-form p {
+    margin-top: 1rem;
+    text-align: center;
   }

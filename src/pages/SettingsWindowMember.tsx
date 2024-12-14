@@ -1,46 +1,88 @@
-import React from 'react';
-import '../styles.css'; 
-interface Member {
-  photo: string;
-  name: string;
-  id: string;
-}
+import React from "react";
+import "../styles.css";
+import { useShoppingListContext } from "../context/ShoppingListContext";
+import UserPng from "../assets/images/user.png";
 
 interface SettingsWindowProps {
-  members: Member[];
-  onLeave: (id: string) => void;
   hideArchived: boolean;
   setHideArchived: (value: boolean) => void;
   onClose: () => void;
+  signedUserId: string; // Add signed user ID as a prop
 }
 
 const SettingsWindow: React.FC<SettingsWindowProps> = ({
-  members,
   hideArchived,
-  onLeave,
   setHideArchived,
   onClose,
+  signedUserId,
 }) => {
+  const { shoppingLists, updateShoppingList } = useShoppingListContext();
+
+  const currentShoppingList = shoppingLists[0]; // Replace with dynamic ID selection as needed
+  const isOwner = currentShoppingList.owner === signedUserId;
+
+  const onDeleteMember = (id: string) => {
+    const updatedMembers = currentShoppingList.members.filter(
+      (member) => member.id !== id
+    );
+    updateShoppingList(currentShoppingList.id, { members: updatedMembers });
+  };
+
+  const leaveList = () => {
+    const updatedMembers = currentShoppingList.members.filter(
+      (member) => member.id !== signedUserId
+    );
+    updateShoppingList(currentShoppingList.id, { members: updatedMembers });
+    onClose(); // Close the modal after leaving
+  };
+
   return (
     <div className="settingsContainer">
-      <button className="closeButton" onClick={onClose}>x</button>
-      <h2>ALL MEMBERS</h2>
-      <ul className="membersList">
-        {members.map((member) => (
-          <li key={member.id} className="memberRow">
-            <img src={member.photo} alt={member.name} className="photo" />
-            <span className="memberName">{member.name}</span>
-            <button onClick={() => onLeave(member.id)} className="deleteButton">Leave</button>
-          </li>
-        ))}
-      </ul>
-      <h2>LIST SETTINGS</h2>
-      <div className="setting">
-        <span>Hide finished tasks</span>
-        <button onClick={() => setHideArchived(!hideArchived)}>
-          {hideArchived ? 'ON' : 'OFF'}
+      <form>
+        <h2>ALL MEMBERS</h2>
+        <ul className="membersList">
+          {currentShoppingList.members.map((member) => (
+            <li key={member.id} className="memberRow">
+              <img
+                src={member.photo || UserPng}
+                alt={member.name}
+                className="photo"
+              />
+              <span className="memberName">{member.name}</span>
+              {member.id === signedUserId ? (
+                <button
+                  onClick={leaveList}
+                  className="deleteButton"
+                  type="button"
+                >
+                  Leave
+                </button>
+              ) : isOwner ? (
+                <button
+                  onClick={() => onDeleteMember(member.id)}
+                  className="deleteButton"
+                  type="button"
+                >
+                  Remove Member
+                </button>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+        <h2>LIST SETTINGS</h2>
+        <div className="setting">
+          <span>Hide finished tasks</span>
+          <button
+            type="button"
+            onClick={() => setHideArchived(!hideArchived)}
+          >
+            {hideArchived ? "Unhide" : "Hide"}
+          </button>
+        </div>
+        <button type="button" className="closeButton" onClick={onClose}>
+          x
         </button>
-      </div>
+      </form>
     </div>
   );
 };

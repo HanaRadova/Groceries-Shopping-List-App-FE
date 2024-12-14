@@ -3,20 +3,37 @@ import "../styles.css";
 import { useShoppingListContext } from "../context/ShoppingListContext";
 import UserPng from "../assets/images/user.png";
 
-const SettingsWindow: React.FC<{
+interface SettingsWindowProps {
   hideArchived: boolean;
   setHideArchived: (value: boolean) => void;
   onClose: () => void;
-}> = ({ hideArchived, setHideArchived, onClose }) => {
+  signedUserId: string; // Pass the signed user ID as a prop
+}
+
+const SettingsWindow: React.FC<SettingsWindowProps> = ({
+  hideArchived,
+  setHideArchived,
+  onClose,
+  signedUserId,
+}) => {
   const { shoppingLists, updateShoppingList } = useShoppingListContext();
 
   const currentShoppingList = shoppingLists[0]; // Replace with dynamic ID selection as needed
+  const isOwner = currentShoppingList.owner === signedUserId;
 
   const onDeleteMember = (id: string) => {
     const updatedMembers = currentShoppingList.members.filter(
       (member) => member.id !== id
     );
     updateShoppingList(currentShoppingList.id, { members: updatedMembers });
+  };
+
+  const leaveList = () => {
+    const updatedMembers = currentShoppingList.members.filter(
+      (member) => member.id !== signedUserId
+    );
+    updateShoppingList(currentShoppingList.id, { members: updatedMembers });
+    onClose(); // Close the modal after leaving
   };
 
   return (
@@ -32,12 +49,25 @@ const SettingsWindow: React.FC<{
                 className="photo"
               />
               <span className="memberName">{member.name}</span>
-              <button
-                onClick={() => onDeleteMember(member.id)}
-                className="deleteButton"
-              >
-                Remove Member
-              </button>
+              {member.id === signedUserId ? (
+                // Signed user sees the "Leave" button for themselves
+                <button
+                  onClick={leaveList}
+                  className="deleteButton"
+                  type="button"
+                >
+                  Leave
+                </button>
+              ) : isOwner ? (
+                // Owner sees the "Remove Member" button for others
+                <button
+                  onClick={() => onDeleteMember(member.id)}
+                  className="deleteButton"
+                  type="button"
+                >
+                  Remove Member
+                </button>
+              ) : null}
             </li>
           ))}
         </ul>

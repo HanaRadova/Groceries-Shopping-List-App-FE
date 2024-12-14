@@ -86,12 +86,15 @@ const ShoppingListDetail: React.FC = () => {
         onToggleArchiveStatus={toggleArchiveStatus}
       />
       <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
-        <SettingsWindow
-          hideArchived={filterResolved}
-          setHideArchived={setFilterResolved}
-          onClose={() => setIsSettingsOpen(false)}
-        />
-      </Modal>
+  <SettingsWindow
+    hideArchived={filterResolved}
+    setHideArchived={setFilterResolved}
+    onClose={() => setIsSettingsOpen(false)}
+    signedUserId="4" // Replace with dynamic signed user ID (e.g., from auth context)
+  />
+</Modal>
+
+
     </div>
   );
 };

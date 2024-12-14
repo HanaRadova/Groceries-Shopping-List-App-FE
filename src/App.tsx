@@ -1,24 +1,29 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginDemo from './pages/LoginDemo';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import ShoppingListDetail from './pages/ShoppingListDetail';
 import AccessDeclined from './pages/AccessDeclined';
 import './styles.css'; 
 import MainPage from './pages/MainPage';
 import Header from "./components/Header";
+import { UserProvider } from "./context/UserContext";
 
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Header />
+    <UserProvider>
+        <Router>
+        <Header />
       <Routes>
-        <Route path="/" element={<MainPage />} /> 
-        <Route path="/login" element={<LoginDemo />} />
+        <Route path="/" element={<Register />} /> 
+        <Route path="/login" element={<Login />} />
+        <Route path="/main-page" element={<MainPage />} />
         <Route path="/shopping-list-detail/:id" element={<ShoppingListDetail />} />
         <Route path="/access-declined" element={<AccessDeclined />} />
       </Routes>
     </Router>
+    </UserProvider>
   );
 };
 
