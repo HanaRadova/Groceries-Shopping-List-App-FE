@@ -7,21 +7,24 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!email || !password) {
       alert("Both fields are required!");
       return;
     }
-
+  
     // Simulate API call to validate login
     console.log("Login:", { email, password });
-
+  
     // Simulate saving the user session
-    localStorage.setItem("user", JSON.stringify({ email }));
-
+    const user = { email, name: "Jo" }; // Replace "Jo" with the actual user name from your backend/registration data
+    localStorage.setItem("user", JSON.stringify(user));
+  
     // Redirect to main page after login
+    alert(`Welcome ${user.name}!`);
     window.location.href = "/main-page";
   };
+  
 
   return (
     <AuthForm
@@ -32,7 +35,7 @@ const Login: React.FC = () => {
       ]}
       onSubmit={handleSubmit}
       footerText="Don't have an account?"
-      footerAction={() => (window.location.href = "/register")}
+      footerAction={() => (window.location.href = "/")}
       footerLinkText="Register here"
     />
   );

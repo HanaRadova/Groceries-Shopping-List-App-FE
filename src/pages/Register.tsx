@@ -20,8 +20,12 @@ const Register: React.FC = () => {
       return;
     }
 
-    // Simulate API call to register the user
-    console.log("Register:", { name, email, password });
+    // Simulate saving registered user
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    users.push({ name, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registration successful! Redirecting to login...");
 
     // Redirect to login after registration
     window.location.href = "/login";

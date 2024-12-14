@@ -6,11 +6,14 @@ import ListHeader from "../components/ListHeader";
 import ShoppingList from "../components/ShoppingList";
 import Footer from "../components/Footer";
 import "../styles.css";
+import Header from "../components/Header";
 import { useShoppingListContext } from "../context/ShoppingListContext";
+import { useUserContext } from "../context/UserContext";
 
 const ShoppingListDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { shoppingLists, updateShoppingList } = useShoppingListContext();
+  const { user } = useUserContext(); // Get the signed-in user from the UserContext
   const shoppingList = shoppingLists.find((list) => list.id === id);
 
   const [newItemName, setNewItemName] = useState("");
@@ -66,6 +69,7 @@ const ShoppingListDetail: React.FC = () => {
 
   return (
     <div className="container">
+      <Header />
       <ListHeader
         listName={shoppingList.name}
         onEditName={editListName}
@@ -86,17 +90,17 @@ const ShoppingListDetail: React.FC = () => {
         onToggleArchiveStatus={toggleArchiveStatus}
       />
       <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
-  <SettingsWindow
-    hideArchived={filterResolved}
-    setHideArchived={setFilterResolved}
-    onClose={() => setIsSettingsOpen(false)}
-    signedUserId="4" // Replace with dynamic signed user ID (e.g., from auth context)
-  />
-</Modal>
-
-
+        <SettingsWindow
+          hideArchived={filterResolved}
+          setHideArchived={setFilterResolved}
+          onClose={() => setIsSettingsOpen(false)}
+          signedUserId={user?.id || ""} // Dynamically pass the signed-in user's ID
+          
+        />
+      </Modal>
     </div>
   );
 };
+
 
 export default ShoppingListDetail;

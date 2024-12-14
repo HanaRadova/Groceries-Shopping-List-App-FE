@@ -18,7 +18,10 @@ const SettingsWindow: React.FC<SettingsWindowProps> = ({
 }) => {
   const { shoppingLists, updateShoppingList } = useShoppingListContext();
 
+  // For simplicity, assuming the first shopping list is the current one
   const currentShoppingList = shoppingLists[0]; // Replace with dynamic ID selection as needed
+
+  // Check if the signed user is the owner
   const isOwner = currentShoppingList.owner === signedUserId;
 
   const onDeleteMember = (id: string) => {
@@ -49,17 +52,8 @@ const SettingsWindow: React.FC<SettingsWindowProps> = ({
                 className="photo"
               />
               <span className="memberName">{member.name}</span>
-              {member.id === signedUserId ? (
-                // Signed user sees the "Leave" button for themselves
-                <button
-                  onClick={leaveList}
-                  className="deleteButton"
-                  type="button"
-                >
-                  Leave
-                </button>
-              ) : isOwner ? (
-                // Owner sees the "Remove Member" button for others
+              {isOwner && member.id !== signedUserId ? (
+                // Show "Remove Member" button for all other members if the user is the owner
                 <button
                   onClick={() => onDeleteMember(member.id)}
                   className="deleteButton"
@@ -67,6 +61,17 @@ const SettingsWindow: React.FC<SettingsWindowProps> = ({
                 >
                   Remove Member
                 </button>
+              ) : member.id === signedUserId ? (
+                // Show "Leave" button for the signed user if they are not the owner
+                !isOwner && (
+                  <button
+                    onClick={leaveList}
+                    className="deleteButton"
+                    type="button"
+                  >
+                    Leave
+                  </button>
+                )
               ) : null}
             </li>
           ))}
