@@ -5,11 +5,13 @@ import ShoppingListDetail from './pages/ShoppingListDetail';
 import AccessDeclined from './pages/AccessDeclined';
 import './styles.css'; 
 import MainPage from './pages/MainPage';
+import Header from "./components/Header";
+
 
 const App: React.FC = () => {
   return (
     <Router>
-      
+      <Header />
       <Routes>
         <Route path="/" element={<MainPage />} /> 
         <Route path="/login" element={<LoginDemo />} />

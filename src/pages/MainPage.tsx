@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../components/Modal';
-import userImage from '../assets/images/user.png'; 
-import enFlag from '../assets/images/EN.png'; 
-import deFlag from '../assets/images/DE.png'; 
-import logo from '../assets/images/logo.png'; 
 import { ShoppingList } from '../types/types';
 import '../styles.css';
 import { initialShoppingLists } from '../mocks/shopping-list-array';
@@ -54,19 +50,7 @@ const MainPage: React.FC = () => {
   });
 
   return (
-    <div className="container">
-      <header className="header">
-        <div className="userInfo">
-          <img src={userImage} alt="User" className="userPhoto" />
-          <span>Hana Radová</span>
-        </div>
-        <div className="languageSwitch">
-          <img src={enFlag} alt="EN" className="flag" />
-          <img src={deFlag} alt="DE" className="flag" />
-        </div>
-        <img src={logo} alt="Logo" className="logo" />
-      </header> 
-      
+    <div className="container">  
       <div className="listHeader">
         <h1>Main Page</h1>
       </div>
