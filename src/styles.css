@@ -10,8 +10,8 @@ body {
   button {
     border: 1px solid black;
     color: black;
-    padding: 10px;
-    margin: 10px;
+    padding: 5px;
+    margin: 5px;
     cursor: pointer;
     background-color: #3872858f; 
     border-radius: 5px;
@@ -142,6 +142,7 @@ body {
   .logo {
     width: 100px;
     border-radius: 10%;
+    cursor: pointer;
   }
   
   .listHeader {
@@ -237,7 +238,7 @@ body {
   }
   
   .buttonContainer {
-    display: flex;
+    display: auto;
     flex-direction: column;
     gap: 10px;
   }

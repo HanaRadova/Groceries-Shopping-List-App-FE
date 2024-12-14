@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../components/Modal';
-import { ShoppingList } from '../types/types';
 import '../styles.css';
-import { initialShoppingLists } from '../mocks/shopping-list-array';
-import { emptyShoppingList } from '../mocks/empty-shopping-list';
+import { useShoppingListContext } from "../context/ShoppingListContext";
 
 const MainPage: React.FC = () => {
-  const [shoppingLists, setShoppingLists] = useState(initialShoppingLists);
+  const { shoppingLists, addShoppingList, deleteShoppingList } =
+    useShoppingListContext();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [showActive, setShowActive] = useState(true);
@@ -15,15 +15,23 @@ const MainPage: React.FC = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [listToDelete, setListToDelete] = useState<string | null>(null);
 
-  const addShoppingList = () => {
-    if (newListName.trim() === '') return;
-    const newList: ShoppingList = emptyShoppingList(shoppingLists, newListName);
-    setShoppingLists([...shoppingLists, newList]);
-    setNewListName('');
+  const handleAddShoppingList = () => {
+    if (newListName.trim() === "") return;
+    const newList = {
+      id: String(Date.now()), // Generate a unique ID
+      name: newListName,
+      owner: "Hana Radová", // Replace with dynamic user data
+      archived: false,
+      items: [],
+      members: [], // Add an empty array or default members
+    };
+    addShoppingList(newList);
+    setNewListName("");
     setIsModalOpen(false);
   };
+  
 
-  const onDeleteHandler = (e: any, id: string) => {
+  const onDeleteHandler = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     setListToDelete(id);
     setIsConfirmModalOpen(true);
@@ -31,7 +39,7 @@ const MainPage: React.FC = () => {
 
   const confirmDelete = () => {
     if (listToDelete) {
-      setShoppingLists(shoppingLists.filter(list => list.id !== listToDelete));
+      deleteShoppingList(listToDelete);
       setListToDelete(null);
       setIsConfirmModalOpen(false);
     }
@@ -82,7 +90,7 @@ const MainPage: React.FC = () => {
           onChange={(e) => setNewListName(e.target.value)}
           placeholder="List Name"
         />
-        <button onClick={addShoppingList}>Add</button> 
+        <button onClick={handleAddShoppingList}>Add</button> 
       </Modal>
       <Modal isOpen={isConfirmModalOpen} onClose={cancelDelete}>
         <h2>Are you sure you want to delete this list?</h2>

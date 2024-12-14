@@ -1,4 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
+import { shoppingList } from "../mocks/shopping-list";
 
 // Define the structure of a shopping list
 interface ShoppingListItem {
@@ -7,12 +8,19 @@ interface ShoppingListItem {
   resolved: boolean;
 }
 
+interface User {
+  id: string;
+  name: string;
+  photo: string;
+}
+
 interface ShoppingList {
   id: string;
   name: string;
   owner: string;
   archived: boolean;
   items: ShoppingListItem[];
+  members: User[];
 }
 
 interface ShoppingListContextType {
@@ -31,13 +39,11 @@ export const ShoppingListProvider = ({ children }: { children: ReactNode }) => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([
     {
       id: "1",
-      name: "Groceries",
-      owner: "Alice",
+      name: shoppingList.name,
+      owner: shoppingList.owner,
       archived: false,
-      items: [
-        { id: "1", name: "Apples", resolved: false },
-        { id: "2", name: "Milk", resolved: true },
-      ],
+      items: shoppingList.items,
+      members: shoppingList.members, // Ensure members are included
     },
   ]);
 
@@ -47,12 +53,9 @@ export const ShoppingListProvider = ({ children }: { children: ReactNode }) => {
 
   const updateShoppingList = (id: string, updates: Partial<ShoppingList>) => {
     setShoppingLists((prev) =>
-      prev.map((list) =>
-        list.id === id ? { ...list, ...updates } : list
-      )
+      prev.map((list) => (list.id === id ? { ...list, ...updates } : list))
     );
   };
-  
 
   const deleteShoppingList = (id: string) => {
     setShoppingLists((prev) => prev.filter((list) => list.id !== id));

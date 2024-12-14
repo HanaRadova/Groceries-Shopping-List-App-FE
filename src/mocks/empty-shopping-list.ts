@@ -2,7 +2,7 @@ export const emptyShoppingList = (initialShoppingLists: Array<any>, newListName:
     ({
     id: String(initialShoppingLists.length + 1),
     name: newListName,
-    owner: 'Current User', 
+    owner: 'Hana Radová', 
     archived: false,
     items:[],
     members:[]
