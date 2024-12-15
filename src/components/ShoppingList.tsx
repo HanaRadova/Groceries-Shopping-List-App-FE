@@ -20,16 +20,16 @@ const ShoppingList: React.FC<ShoppingListProps> = ({
 }) => (
   <ul className="list">
     {items.map((item) => (
-      <li key={item.id} className="listItem">
+      <li key={item._ID} className="listItem">
         <input
           type="checkbox"
           checked={item.resolved}
-          onChange={() => onToggleResolved(item.id)}
+          onChange={() => onToggleResolved(item._ID)}
         />
         <span className={`itemName ${item.resolved ? "resolved" : ""}`}>
           {item.name}
         </span>
-        <button onClick={() => onRemoveItem(item.id)} className="deleteButton">
+        <button onClick={() => onRemoveItem(item._ID)} className="deleteButton">
           Remove Item
         </button>
       </li>

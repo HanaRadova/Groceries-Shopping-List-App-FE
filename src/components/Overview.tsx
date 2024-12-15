@@ -10,9 +10,9 @@ const Overview = () => {
       <h1>Shopping Lists</h1>
       <ul>
         {shoppingLists.map((list) => (
-          <li key={list.id}>
-            <Link to={`/list/${list.id}`}>{list.name}</Link>
-            <button onClick={() => deleteShoppingList(list.id)}>Delete</button>
+          <li key={list._ID}>
+            <Link to={`/list/${list._ID}`}>{list.name}</Link>
+            <button onClick={() => deleteShoppingList(list._ID)}>Delete</button>
           </li>
         ))}
       </ul>

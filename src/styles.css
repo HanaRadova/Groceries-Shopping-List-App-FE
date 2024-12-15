@@ -310,7 +310,7 @@ body {
   
   button {
     padding: 0.7rem;
-    margin: 5px;
+    margin: 10px;
     background-color: #3872858f;
     color: white;
     border: none;
@@ -373,4 +373,3 @@ body {
   margin-bottom: 10px;
   border: 2px solid #ccc;
 }
-

@@ -6,12 +6,13 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim()) {
-      alert("Name is required!");
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      alert("All fields are required!");
       return;
     }
 
@@ -20,15 +21,35 @@ const Register: React.FC = () => {
       return;
     }
 
-    // Simulate saving registered user
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    users.push({ name, email, password });
-    localStorage.setItem("users", JSON.stringify(users));
+    setLoading(true);
 
-    alert("Registration successful! Redirecting to login...");
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role: "user", // Default role
+        }),
+      });
 
-    // Redirect to login after registration
-    window.location.href = "/login";
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      alert("Registration successful! Redirecting to login...");
+      window.location.href = "/login";
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,6 +70,7 @@ const Register: React.FC = () => {
       footerText="Already have an account?"
       footerAction={() => (window.location.href = "/login")}
       footerLinkText="Login here"
+      buttonText={loading ? "Registering..." : "Register"}
     />
   );
 };

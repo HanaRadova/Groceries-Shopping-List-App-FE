@@ -4,7 +4,7 @@ import share from "../assets/images/share.png";
 
 interface ListHeaderProps {
   listName: string;
-  onEditName: (name: string) => void;
+  onEditName?: (name: string) => void; 
   onOpenSettings: () => void;
   onGenerateShareLink: () => void;
 }
@@ -19,8 +19,9 @@ const ListHeader: React.FC<ListHeaderProps> = ({
     <input
       type="text"
       value={listName}
-      onChange={(e) => onEditName(e.target.value)}
+      onChange={(e) => onEditName && onEditName(e.target.value)}
       className="listName"
+      readOnly={!onEditName} 
     />
     <div className="listActions">
       <img

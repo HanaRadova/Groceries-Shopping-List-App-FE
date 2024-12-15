@@ -5,12 +5,12 @@ const Detail = () => {
   const { id } = useParams<{ id: string }>();
   const { shoppingLists, updateShoppingList } = useShoppingListContext();
 
-  // Validate id before using it
+  
   if (!id) {
     return <div>Error: Invalid shopping list ID.</div>;
   }
 
-  const shoppingList = shoppingLists.find((list) => list.id === id);
+  const shoppingList = shoppingLists.find((list) => list._ID === id);
 
   if (!shoppingList) {
     return <div>Shopping list not found.</div>;
@@ -28,7 +28,7 @@ const Detail = () => {
       </button>
       <ul>
         {shoppingList.items.map((item) => (
-          <li key={item.id}>
+          <li key={item._ID}>
             {item.name} - {item.resolved ? "Resolved" : "Unresolved"}
           </li>
         ))}

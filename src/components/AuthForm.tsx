@@ -15,6 +15,7 @@ interface AuthFormProps {
   footerText?: string;
   footerAction?: () => void;
   footerLinkText?: string;
+  buttonText?: string; 
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({
@@ -24,6 +25,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   footerText,
   footerAction,
   footerLinkText,
+  buttonText = "Submit", 
 }) => {
   return (
     <form className="auth-form" onSubmit={onSubmit}>
@@ -31,7 +33,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       {fields.map((field, index) => (
         <InputField key={index} {...field} />
       ))}
-      <Button text="Submit" type="submit" />
+      <Button text={buttonText} type="submit" /> 
       {footerText && footerAction && (
         <p>
           {footerText}{" "}

@@ -5,29 +5,44 @@ import userImage from "../assets/images/user.png";
 import logo from "../assets/images/logo.png";
 import "../styles.css";
 
+
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { user, logout } = useUserContext(); // Access user and logout from context
-  const [showPopup, setShowPopup] = useState(false); // Popup visibility state
+  const { user, logout } = useUserContext(); 
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleProfileClick = () => {
-    setShowPopup(!showPopup); // Toggle popup visibility
+  const togglePopup = () => setShowPopup((prev) => !prev);
+
+  const handleLogout = () => {
+    logout(); 
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
   };
 
   return (
     <header className="header">
-      <div className="userInfo" onClick={handleProfileClick} style={{ cursor: "pointer" }}>
+     
+      <div
+        className="userInfo"
+        style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+        onClick={togglePopup} 
+      >
         <img src={user?.photo || userImage} alt="User" className="userPhoto" />
-        <span>{user ? user.name : "Guest"}</span>
+        <span style={{ marginLeft: "8px", fontWeight: "bold" }}>
+          {user?.name || "Guest"}
+        </span>
       </div>
+
+    
       {showPopup && (
         <div className="popupMenu">
-          <ul>
-            <li onClick={() => navigate("/profile")}>Profile Details</li>
-            <li onClick={logout}>Log Out</li>
-          </ul>
+          <button className="logoutButton" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
+
+      
       <img
         src={logo}
         alt="Logo"

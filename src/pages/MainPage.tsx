@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import { v4 as uuidv4 } from "uuid";
 import "../styles.css";
 import { useShoppingListContext } from "../context/ShoppingListContext";
 import { useUserContext } from "../context/UserContext";
-import Header from "../components/Header"; // Import Header component
+import Header from "../components/Header"; 
 
 const MainPage: React.FC = () => {
   const { shoppingLists, addShoppingList, deleteShoppingList } = useShoppingListContext();
@@ -22,23 +23,31 @@ const MainPage: React.FC = () => {
       alert("You must be logged in to create a list.");
       return;
     }
-
+  
     if (newListName.trim() === "") return;
-
+  
     const newList = {
-      id: String(Date.now()), // Generate a unique ID
+      _ID: String(Date.now()), 
       name: newListName,
-      owner: user.name || "Guest", // Dynamically set owner based on the signed-in user
+      owner: user.name, // Owner is the current signed-in user
       archived: false,
       items: [],
-      members: [], // Default to an empty array
+      members: [
+        {
+          id: user.id, // Add the signed-in user to members
+          name: user.name,
+          photo: user.photo || "", 
+        },
+      ],
     };
-
+  
     addShoppingList(newList);
     setNewListName("");
     setIsModalOpen(false);
   };
-
+  
+ 
+  
   const onDeleteHandler = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     setListToDelete(id);
@@ -67,7 +76,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div>
-      <Header /> {/* Add the Header component */}
+      <Header /> 
       <div className="container">
         <div className="listHeader">
           <h1>Main Page</h1>
@@ -79,13 +88,13 @@ const MainPage: React.FC = () => {
         </div>
         <div className="shopping-lists">
           {filteredLists.map((list) => (
-            <div key={list.id} className="shopping-list-tile">
-              <Link to={`/shopping-list-detail/${list.id}`}>
+            <div key={list._ID} className="shopping-list-tile">
+              <Link to={`/shopping-list-detail/${list._ID}`}>
                 <div className="listArea">
                   <p className="listHeader">{list.name}</p>
                   <p className="listHeader">{list.owner}</p>
                   <p className="listHeader">{list.archived ? "Archived" : "Active"}</p>
-                  <button onClick={(e) => onDeleteHandler(e, list.id)}>Delete</button>
+                  <button onClick={(e) => onDeleteHandler(e, list._ID)}>Delete</button>
                 </div>
               </Link>
             </div>

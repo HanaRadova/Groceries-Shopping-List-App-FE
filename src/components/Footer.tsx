@@ -4,8 +4,10 @@ import userImage from "../assets/images/user.png";
 interface FooterProps {
   owner: string;
   isArchived: boolean;
-  onToggleArchiveStatus: () => void;
+  onToggleArchiveStatus?: () => void; 
 }
+
+
 
 const Footer: React.FC<FooterProps> = ({
   owner,
@@ -25,9 +27,13 @@ const Footer: React.FC<FooterProps> = ({
         </div>
         <div className="footerColumn">
           <p>Category</p>
-          <button className="archiveButton" onClick={onToggleArchiveStatus}>
-            {isArchived ? "Active" : "Archived"}
-          </button>
+          <button
+  className="archiveButton"
+  onClick={onToggleArchiveStatus ? onToggleArchiveStatus : undefined}
+  disabled={!onToggleArchiveStatus} 
+>
+  {isArchived ? "Active" : "Archived"}
+</button>
         </div>
       </div>
     </div>

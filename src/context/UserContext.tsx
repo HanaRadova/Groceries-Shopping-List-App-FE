@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
-// Define the User Interface
+
 interface User {
   id: string;
   name: string;
@@ -14,14 +14,11 @@ type UserContextType = {
   };
   
 
-// Create User Context
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-// Create UserProvider Component
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // Load User from localStorage on App Initialization
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -29,16 +26,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  // Logout Functionality
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
 
-  // Save User to localStorage on Login
 
   const saveUser: React.Dispatch<React.SetStateAction<User | null>> = (newUser) => {
-    setUser(newUser); // Assuming setUser is defined and updates the state
+    setUser(newUser); 
   };
   
 
@@ -49,7 +44,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-// Hook to Use UserContext
 export const useUserContext = (): UserContextType => {
     const context = useContext(UserContext);
     if (!context) {

@@ -13,7 +13,7 @@ const Profile: React.FC = () => {
       const reader = new FileReader();
 
       reader.onload = () => {
-        setPhoto(reader.result as string); // Convert image to Base64 string
+        setPhoto(reader.result as string); 
       };
 
       reader.readAsDataURL(file);
@@ -27,13 +27,13 @@ const Profile: React.FC = () => {
     }
   
     const updatedUser = {
-      id: user.id || "default-id", // Add a fallback ID here
+      id: user.id || "default-id",
       name,
       photo,
     };
   
-    setUser(updatedUser); // Update user in context
-    localStorage.setItem("user", JSON.stringify(updatedUser)); // Save to localStorage
+    setUser(updatedUser); 
+    localStorage.setItem("user", JSON.stringify(updatedUser)); 
     alert("Profile updated!");
   };
   
@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
           <label htmlFor="photo">Profile Picture</label>
           <div className="profileImageContainer">
             <img
-              src={photo || "/default-profile.png"} // Default placeholder image
+              src={photo || "/default-profile.png"} 
               alt="Profile"
               className="profileImagePreview"
             />

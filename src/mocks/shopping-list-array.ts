@@ -1,17 +1,23 @@
-import { ShoppingList } from '../types/types';
-import { members, users } from './users';
+import { ShoppingList } from "../types/types";
 
-export const initialShoppingLists: ShoppingList[] = [
-    { id: "1", name: 'For Monday', owner: 'Bob Brown', archived: false,  items: [
-      { id: "1", name: 'Milk', resolved: false },
-      { id: "2", name: 'Bread', resolved: true },
-      { id: "3", name: 'Eggs', resolved: false },
-      { id: "4", name: 'Oranges', resolved: false },
-    ], members:[...members] },
-    { id: "2", name: 'My Shopping List', owner: 'Hana Radová', archived: true, items:[
-      { id: "1", name: 'Banana', resolved: false },
-      { id: "2", name: 'Orange juice', resolved: false },
-      { id: "3", name: 'Backing Powder', resolved: true },
-      { id: "4", name: 'Flowers', resolved: true },
-    ], members:[...members] },
-  ];
+export const shoppingLists: ShoppingList[] = [
+  {
+    _ID: "1",
+    name: "Groceries",
+    owner: "John Doe",
+    archived: false,
+    items: [
+      { _ID: "item1", name: "Milk", resolved: false },
+      { _ID: "item2", name: "Eggs", resolved: true },
+    ],
+    members: [{ id: "user1", name: "John Doe" }],
+  },
+  {
+    _ID: "2",
+    name: "Hardware Supplies",
+    owner: "Jane Smith",
+    archived: true,
+    items: [{ _ID: "item3", name: "Hammer", resolved: false }],
+    members: [{ id: "user2", name: "Jane Smith" }],
+  },
+];

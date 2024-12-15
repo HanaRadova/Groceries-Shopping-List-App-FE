@@ -1,6 +1,5 @@
 import React from 'react';
-import '../styles.css'; // Import the global stylesheet
-
+import '../styles.css'; 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
