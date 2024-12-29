@@ -1,0 +1,14 @@
+{
+    "logout": "Logout",
+    "dark_mode": "Dark Mode",
+    "light_mode": "Light Mode",
+    "CZ": "CZ",
+    "main_page": "Main Page",
+    "active": "Active",
+    "archived": "Archived",
+    "delete": "Delete",
+    "confirm_delete_list": "Are you sure you want to delete this list?",
+    "yes": "Yes",
+    "no": "No",
+    "must_be_logged_in": "You must be logged in to create a list."
+  }

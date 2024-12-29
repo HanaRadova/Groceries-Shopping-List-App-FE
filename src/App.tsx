@@ -8,11 +8,14 @@ import MainPage from "./pages/MainPage";
 import Profile from "./components/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProvider } from "./context/UserContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import "./styles.css";
+import "./i18n/i18n";
 
 const App: React.FC = () => {
   return (
     <UserProvider>
+      <ThemeProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Register />} />
@@ -38,6 +41,7 @@ const App: React.FC = () => {
           <Route path="/access-declined" element={<AccessDeclined />} />
         </Routes>
       </Router>
+      </ThemeProvider>
     </UserProvider>
   );
 };

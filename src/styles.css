@@ -1,6 +1,18 @@
+/* Light Theme */
+.light {
+  --background-color:#a9c44899;
+  --text-color: #000000;
+}
+
+/* Dark Theme */
+.dark {
+  --background-color: #093036;
+  --text-color: #ffffff;
+}
+
 body {
-    background-color: white;
-    color: #000000; 
+    background-color: var(--background-color);
+    color: var(--text-color);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -8,8 +20,9 @@ body {
   }
   
   button:hover {
-    background-color:#49688d;
-    color: antiquewhite;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    
   }
   
   /* Modal Styles */
@@ -19,7 +32,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(177, 192, 175, 0.5);
+    background: rgba(100, 189, 89, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,11 +110,12 @@ body {
   }
   
   .header {
+    background-color: var(--background-color);
+    color: var(--text-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color:#a9c44899;
     padding: 10px;
     border-radius: 8px;
   }
@@ -191,7 +205,8 @@ body {
   
   .footer {
     margin-top: 20px;
-    background-color:#a9c44899;    
+    background-color: var(--background-color);
+    color: var(--text-color); 
     padding: 10px;
     border-radius: 8px;
   }
@@ -272,7 +287,8 @@ body {
     justify-content: center;
     margin-bottom: 20px;
     align-items: center;
-    background-color:#20600d5f;
+    background-color: var(--background-color);
+    color: var(--text-color);
     padding: 10px;
     border-radius: 8px;
   }
@@ -373,3 +389,30 @@ body {
   margin-bottom: 10px;
   border: 2px solid #ccc;
 }
+.popupBox {
+  position: absolute;
+  top: 10px; 
+  right: 35%; 
+  left: 35%;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.popupBox button {
+  
+  display: block;
+  width: 100%;
+  border: none;
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+
+
+
